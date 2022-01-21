@@ -1,54 +1,50 @@
+// Vzorový projekt 
 #include "stm8s.h"
 #include "milis.h"
-
-/*#include "delay.h"*/
-#include <stdio.h>
-/*#include "uart1.h"*/
-
-#define _ISOC99_SOURCE
-#define _GNU_SOURCE
-
-#define LED_PORT GPIOC
-#define LED_PIN  GPIO_PIN_5
-#define LED_HIGH   GPIO_WriteHigh(LED_PORT, LED_PIN)
-#define LED_LOW  GPIO_WriteLow(LED_PORT, LED_PIN)
-#define LED_REVERSE GPIO_WriteReverse(LED_PORT, LED_PIN)
-
-#define BTN_PORT GPIOE
-#define BTN_PIN  GPIO_PIN_4
-#define BTN_PUSH (GPIO_ReadInputPin(BTN_PORT, BTN_PIN)==RESET) 
+#include "stdio.h"
+#include "spse_stm8.h"
+#include "stm8_hd44780.h"
+#include "stm8_hd44780.c"
+#include "delay.h"
+#include "stm8s.h"
 
 
-void setup(void)
-{
-    CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);      // taktovani MCU na 16MHz
-    GPIO_Init(LED_PORT, LED_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
-    GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_FL_NO_IT);
+void main(void){
+CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1); // taktovat MCU na 16MHz
 
-    init_milis();
-    /*init_uart1();*/
+
+while(1){
+   lcd_init();
+
+
+}
+
 }
 
 
-int main(void)
-{
-    uint32_t time = 0;
 
-    setup();
 
-    while (1) {
 
-        if (milis() - time > 333 && BTN_PUSH) {
-            LED_REVERSE; 
-            time = milis();
-            /*printf("%ld\n", time);*/
-        }
+#ifdef USE_FULL_ASSERT
 
-        /*LED_REVERSE; */
-        /*_delay_ms(333);*/
-        /*printf("Funguje to!!!\n");*/
-    }
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *   where the assert_param error has occurred.
+  * @param file: pointer to the source file name
+  * @param line: assert_param error line source number
+  * @retval : None
+  */
+void assert_failed(u8* file, u32 line)
+{ 
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+
+  /* Infinite loop */
+  while (1)
+  {
+  }
 }
+#endif
 
-/*-------------------------------  Assert -----------------------------------*/
-#include "__assert__.h"
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
